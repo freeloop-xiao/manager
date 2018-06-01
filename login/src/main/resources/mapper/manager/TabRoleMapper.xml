@@ -7,25 +7,59 @@
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="available" jdbcType="CHAR" property="available" />
   </resultMap>
+
   <sql id="Base_Column_List">
     id, name, type, available
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tab_role
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectBySelective" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tab_role
+    where 1=1
+    <if test="name != null">
+      and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null">
+       and type = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="available != null">
+      and available = #{available,jdbcType=CHAR}
+    </if>
+    ORDER BY id ASC
+  </select>
+
+
+  <select id="selectByAvailable" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tab_role
+    where 1=1
+    <if test="available != null">
+      and available = #{available,jdbcType=CHAR}
+    </if>
+    ORDER BY id ASC
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tab_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.user.manager.vo.TabRoleVO">
     insert into tab_role (id, name, type, 
       available)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{available,jdbcType=CHAR})
   </insert>
+
   <insert id="insertSelective" parameterType="com.user.manager.vo.TabRoleVO">
     insert into tab_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -57,6 +91,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.user.manager.vo.TabRoleVO">
     update tab_role
     <set>
@@ -72,6 +107,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.user.manager.vo.TabRoleVO">
     update tab_role
     set name = #{name,jdbcType=VARCHAR},

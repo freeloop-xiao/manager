@@ -68,4 +68,28 @@ public class PageInfo<T> {
         this.count = count;
         this.data = data;
     }
+
+    /**
+     * 每页记录条数检查
+     * @param pageSize：每页记录条数
+     * @return
+     */
+    public static int checkPageSize(Integer pageSize){
+        if (pageSize == null || pageSize == 0){
+            return 10;
+        }
+        return pageSize;
+    }
+
+    /**
+     * 参数页码检查
+     * @param pageNum:页数
+     * @return
+     */
+    public static int checkPageNum(Integer pageNum){
+        if (pageNum == null || pageNum == 0){
+            return 1;
+        }
+        return pageNum;
+    }
 }

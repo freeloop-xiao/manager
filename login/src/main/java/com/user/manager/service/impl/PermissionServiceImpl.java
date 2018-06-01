@@ -24,11 +24,12 @@ public class PermissionServiceImpl implements PermissionService {
     private TabPermissionMapper tabPermissionMapper;
 
     @Override
-    public TabPermissionVO addPermission(String name, String type, String url) {
+    public TabPermissionVO addPermission(String name, String type, String url, String appName) {
         TabPermissionVO permission = new TabPermissionVO();
         permission.setName(name);
         permission.setType(type);
         permission.setUrl(url);
+        permission.setAppName(appName);
         permission.setAvailable(ManagerConstants.AVAILABLE_STATUS);
         tabPermissionMapper.insert(permission);
         permission = tabPermissionMapper.selectByTypeAndUrl(type,url);
@@ -41,23 +42,30 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public int changePermission(Long id, String name, String type, String url, String available) {
+    public int changePermission(Long id, String name, String type, String url, String appName, String available) {
         TabPermissionVO permission = new TabPermissionVO();
         permission.setId(id);
         permission.setName(name);
         permission.setType(type);
         permission.setAvailable(available);
         permission.setUrl(url);
+        permission.setAppName(appName);
         return tabPermissionMapper.updateByPrimaryKeySelective(permission);
     }
 
     @Override
-    public PageInfo<List<TabPermissionVO>> findPermission(Long id, String name, String type, String url, String available, Integer pageNum, Integer pageSize) {
+    public TabPermissionVO findPermission(Long id){
+        return tabPermissionMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public PageInfo<List<TabPermissionVO>> findPermissions(Long id, String name, String type, String url, String appName, String available, Integer pageNum, Integer pageSize) {
         TabPermissionVO permission = new TabPermissionVO();
         permission.setId(id);
         permission.setName(name);
         permission.setType(type);
         permission.setUrl(url);
+        permission.setAppName(appName);
         permission.setAvailable(available);
         if (pageNum == null || pageNum == 0){
             pageNum = 1;

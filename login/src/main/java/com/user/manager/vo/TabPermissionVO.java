@@ -9,6 +9,8 @@ public class TabPermissionVO {
 
     private String url;
 
+    private String appName;
+
     private String authCode;
 
     private Long parentId;
@@ -47,6 +49,14 @@ public class TabPermissionVO {
 
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 
     public String getAuthCode() {

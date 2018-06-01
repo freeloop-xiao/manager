@@ -10,6 +10,7 @@ import java.util.Set;
  * desc:
  */
 public class IdGenerator {
+    private static final IdGenerator ig = new IdGenerator(1023);
     /**
      * SnowFlake算法 64位Long类型生成唯一ID 第一位0，表明正数 2-42，41位，表示毫秒时间戳差值，起始值自定义
      * 43-52，10位，机器编号，5位数据中心编号，5位进程编号 53-64，12位，毫秒内计数器 本机内存生成，性能高
@@ -69,6 +70,12 @@ public class IdGenerator {
         }
         return ts;
     }
+
+    public static String generateId(int length){
+        long temp = ig.nextId();
+        return String.valueOf(temp).substring(length);
+    }
+
 
     public static void main(String[] args) throws Exception {
         // TODO Auto-generated method stub

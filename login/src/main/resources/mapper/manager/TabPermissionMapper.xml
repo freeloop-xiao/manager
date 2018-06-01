@@ -6,13 +6,14 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
     <result column="auth_code" jdbcType="VARCHAR" property="authCode" />
     <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="parent_ids" jdbcType="VARCHAR" property="parentIds" />
     <result column="available" jdbcType="CHAR" property="available" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, type, url, auth_code, parent_id, parent_ids, available
+    id, name, type, url, app_name, auth_code, parent_id, parent_ids, available
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -30,7 +31,7 @@
     <if test="available != null and available != '2'">
       AND available = #{available,jdbcType=VARCHAR}
     </if>
-    ORDER BY id
+    ORDER BY id ASC
   </select>
 
   <select id="selectByTypeAndUrl"  resultMap="BaseResultMap">
@@ -38,6 +39,7 @@
     <include refid="Base_Column_List" />
     from tab_permission
     where type = #{type,jdbcType=VARCHAR} AND  url = #{url,jdbcType=VARCHAR}
+    ORDER BY id ASC
   </select>
 
   <select id="selectBySelective"  resultMap="BaseResultMap">
@@ -57,9 +59,13 @@
     <if test="url != null">
       AND url = #{url,jdbcType=VARCHAR}
     </if>
+    <if test="appName != null">
+      AND app_name = #{appName,jdbcType=VARCHAR}
+    </if>
     <if test="available != null">
       AND available = #{available,jdbcType=VARCHAR}
     </if>
+    ORDER BY id ASC
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -69,10 +75,10 @@
 
   <insert id="insert" parameterType="com.user.manager.vo.TabPermissionVO">
     insert into tab_permission (id, name, type, 
-      url, auth_code, parent_id, 
+      url, app_name, auth_code, parent_id,
       parent_ids, available)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{authCode,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
+      #{url,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, #{authCode,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT},
       #{parentIds,jdbcType=VARCHAR}, #{available,jdbcType=CHAR})
   </insert>
 
@@ -90,6 +96,9 @@
       </if>
       <if test="url != null">
         url,
+      </if>
+      <if test="appName != null">
+        app_name,
       </if>
       <if test="authCode != null">
         auth_code,
@@ -116,6 +125,9 @@
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null">
+        #{appName,jdbcType=VARCHAR},
       </if>
       <if test="authCode != null">
         #{authCode,jdbcType=VARCHAR},
@@ -144,6 +156,9 @@
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
+      <if test="appName != null">
+        app_name = #{appName,jdbcType=VARCHAR},
+      </if>
       <if test="authCode != null">
         auth_code = #{authCode,jdbcType=VARCHAR},
       </if>
@@ -165,6 +180,7 @@
     set name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
+      app_name = #{appName,jdbcType=VARCHAR},
       auth_code = #{authCode,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=BIGINT},
       parent_ids = #{parentIds,jdbcType=VARCHAR},

@@ -16,9 +16,10 @@ public interface PermissionService {
      * @param name：权限名字
      * @param type：类型
      * @param url：url
+     * @param appName :应用名称
      * @return
      */
-    TabPermissionVO addPermission(String name, String type, String url);
+    TabPermissionVO addPermission(String name, String type, String url, String appName);
 
     /**
      * 删除权限
@@ -33,10 +34,19 @@ public interface PermissionService {
      * @param name:权限名字
      * @param type：类型
      * @param url：请求资源
+     * @param appName :应用名称
      * @param available：是否可用0：不可用 1：可用
      * @return
      */
-    int changePermission(Long id, String name, String type, String url, String available);
+    int changePermission(Long id, String name, String type, String url, String appName ,String available);
+
+    /**
+     * 根据id查询权限信息
+     * @param id：权限id
+     * @return
+     */
+    TabPermissionVO findPermission(Long id);
+
 
     /**
      * 查找权限
@@ -47,7 +57,7 @@ public interface PermissionService {
      * @param available：是否可用0：不可用 1：可用
      * @return
      */
-    public PageInfo<List<TabPermissionVO>> findPermission(Long id, String name, String type, String url, String available, Integer pageNum, Integer pageSize);
+    public PageInfo<List<TabPermissionVO>> findPermissions(Long id, String name, String type, String url, String appName, String available, Integer pageNum, Integer pageSize);
 
     /**
      * 获取权限

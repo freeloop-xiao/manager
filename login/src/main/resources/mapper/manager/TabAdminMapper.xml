@@ -16,8 +16,14 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+
   <sql id="Base_Column_List">
     id, name, email, phone_no, pwd, salt, user_level, available, create_user, app_id, 
+    update_date, create_date, remark
+  </sql>
+
+  <sql id="Usual_Column_List">
+    id, name, email, phone_no, user_level, available, create_user, app_id,
     update_date, create_date, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -26,10 +32,63 @@
     from tab_admin
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectUsualByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Usual_Column_List" />
+    from tab_admin
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectBySelective" resultMap="BaseResultMap">
+    select
+    <include refid="Usual_Column_List" />
+    from tab_admin
+    where 1=1
+    <if test="name != null">
+      and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null">
+      and email = #{email,jdbcType=VARCHAR}
+    </if>
+    <if test="phoneNo != null">
+      and phone_no = #{phoneNo,jdbcType=VARCHAR}
+    </if>
+    <if test="userLevel != null">
+      and user_level = #{userLevel,jdbcType=INTEGER}
+    </if>
+    <if test="available != null">
+      and available = #{available,jdbcType=CHAR}
+    </if>
+    <if test="appId != null">
+      and app_id = #{appId,jdbcType=VARCHAR}
+    </if>
+    ORDER BY id ASC
+  </select>
+
+  <select id="selectByAvailable" resultMap="BaseResultMap">
+    select
+    <include refid="Usual_Column_List" />
+    from tab_admin
+    where 1=1
+    <if test="available != null">
+      and available = #{available,jdbcType=CHAR}
+    </if>
+    ORDER BY id ASC
+  </select>
+
+  <select id="selectByPhoneNo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tab_admin
+    where phone_no = #{phoneNo,jdbcType=VARCHAR}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from tab_admin
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+
   <insert id="insert" parameterType="com.user.manager.vo.TabAdminVO">
     insert into tab_admin (id, name, email, 
       phone_no, pwd, salt, 
@@ -42,6 +101,7 @@
       #{appId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
+
   <insert id="insertSelective" parameterType="com.user.manager.vo.TabAdminVO">
     insert into tab_admin
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -127,6 +187,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.user.manager.vo.TabAdminVO">
     update tab_admin
     <set>
@@ -169,6 +230,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.user.manager.vo.TabAdminVO">
     update tab_admin
     set name = #{name,jdbcType=VARCHAR},

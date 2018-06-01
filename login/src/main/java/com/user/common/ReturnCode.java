@@ -17,6 +17,16 @@ public class ReturnCode {
     public static final String SUCCESS_MSG = "成功";
 
     /**
+     * 系统异常
+     */
+    public static final String ERROR = "9999";
+
+    /**
+     * 系统异常说明
+     */
+    public static final String ERROR_MSG = "系统异常!";
+
+    /**
      * 参数未传
      */
     public static final String PARAM_NO_SEND = "0001";
@@ -45,5 +55,16 @@ public class ReturnCode {
     /**
      * 应用不存在说明
      */
-    public static final String APP_IS_NOT_EXIT_MSG = "用户已经注册!";
+    public static final String APP_IS_NOT_EXIT_MSG = "用户不存在!";
+
+    /**
+     * 用户等传送错误 只能是1 或者2
+     */
+    public static final String USER_LEVEL_ERROR = "0004";
+
+    /**
+     * 错误传入错误说明
+     */
+    public static final String PARAM_ERROR = "参数传送错误，请检测参数！";
+
 }

@@ -34,12 +34,7 @@ public class RegisterServiceImpl implements RegisterService {
     public ResultMessage<TabUserVO> userRegister(String appId, String phoneNo, String userName,
                                                  String password, Integer idCardType, String idCardNo,
                                                  String email, String provCode, String cityCode, String areaCode) {
-        ResultMessage<TabUserVO> resultMessage = ParamUtils.checkParamsIsNull(appId, phoneNo, userName,
-                password, idCardNo, email, provCode, cityCode, areaCode);
-
-        if (resultMessage != null) {
-            return resultMessage;
-        }
+        ParamUtils.checkParamsIsNull(appId, phoneNo, userName, password, idCardNo, email, provCode, cityCode, areaCode);
 
         TabUserVO user = tabUserMapper.selectByPhoneNoAndAppId(phoneNo, appId);
         if (user != null) {
@@ -72,7 +67,7 @@ public class RegisterServiceImpl implements RegisterService {
         user.setSalt(null);
         user.setPwd(null);
         logger.info("用户注册成功："+ user);
-        resultMessage = new ResultMessage<>(ReturnCode.SUCCESS,ReturnCode.SUCCESS_MSG);
+        ResultMessage<TabUserVO> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS,ReturnCode.SUCCESS_MSG);
         resultMessage.setData(user);
         return resultMessage;
     }
