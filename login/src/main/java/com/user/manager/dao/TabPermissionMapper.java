@@ -22,6 +22,8 @@ public interface TabPermissionMapper {
 
     List<TabPermissionVO> selectByAvilable(@Param("available") String available);
 
+    List<TabPermissionVO> selectPermissionByRoleId(@Param("roleId") Integer roleId);
+
     int updateByPrimaryKeySelective(TabPermissionVO record);
 
     int updateByPrimaryKey(TabPermissionVO record);

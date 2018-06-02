@@ -67,4 +67,31 @@ public class ReturnCode {
      */
     public static final String PARAM_ERROR = "参数传送错误，请检测参数！";
 
+    /**
+     * 角色不存在
+     */
+    public static final String ROLE_IS_NOT_EXIST = "0005";
+    /**
+     * 角色不存在消息提醒
+     */
+    public static final String ROLE_IS_NOT_EXIST_MSG = "角色不存在！";
+
+    /**
+     * 权限不存在
+     */
+    public static final String PERMISSION_IS_NOT_EXIST = "0006";
+    /**
+     * 权限不存在提醒
+     */
+    public static final String PERMISSION_IS_NOT_EXIST_MSG = "权限不存在!";
+
+    /**
+     * 角色已经授权
+     */
+    public static final String PERMISSION_IS_EXIST = "0007";
+    /**
+     * 角色已经授权提醒
+     */
+    public static final String PERMISSION_IS_EXIST_MSG = "该角色已经拥有该权限!";
+
 }
