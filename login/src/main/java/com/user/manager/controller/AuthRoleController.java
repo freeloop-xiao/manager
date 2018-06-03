@@ -4,6 +4,7 @@ import com.user.common.ParamUtils;
 import com.user.common.ResultMessage;
 import com.user.common.ReturnCode;
 import com.user.manager.service.AuthRoleService;
+import com.user.manager.vo.RolePermissionVO;
 import com.user.manager.vo.TabPermissionVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,17 +57,17 @@ public class AuthRoleController {
     @ApiOperation("角色批量取消授权接口")
     @RequestMapping(path = "/canceAuthRoles/{roleId}", method = RequestMethod.DELETE)
     public ResultMessage<String> canceAuthRoles(@ApiParam("角色Id") @PathVariable("roleId") Integer roleId,
-                                                @ApiParam("权限id列表") @RequestBody List<Long> permissionIds){
-        ParamUtils.checkParamsIsNull(permissionIds);
-        authRoleService.canceAuthRoles(roleId, permissionIds);
+                                                @ApiParam("角色权限id列表") @RequestBody List<Integer> rolePermissionIds){
+        ParamUtils.checkParamsIsNull(rolePermissionIds);
+        authRoleService.canceAuthRoles(roleId, rolePermissionIds);
         return new ResultMessage<>(ReturnCode.SUCCESS, "角色批量取消授权成功！");
     }
 
     @ApiOperation("查看角色授权")
     @RequestMapping(path = "/findRoleAuths", method = RequestMethod.GET)
-    public ResultMessage<List<TabPermissionVO>> findRoleAuths(@ApiParam("角色id") @RequestParam Integer roleId){
-        List<TabPermissionVO> data = authRoleService.findRolePermissions(roleId);
-        ResultMessage<List<TabPermissionVO>> resultMessage = new ResultMessage(ReturnCode.SUCCESS, "获取角色授权成功!");
+    public ResultMessage<List<RolePermissionVO>> findRoleAuths(@ApiParam("角色id") @RequestParam Integer roleId){
+        List<RolePermissionVO> data = authRoleService.findRolePermissions(roleId);
+        ResultMessage<List<RolePermissionVO>> resultMessage = new ResultMessage(ReturnCode.SUCCESS, "获取角色授权成功!");
         resultMessage.setData(data);
         return resultMessage;
     }

@@ -6,16 +6,16 @@ import com.user.manager.dao.TabPermissionMapper;
 import com.user.manager.dao.TabRoleMapper;
 import com.user.manager.dao.TabRolePermissionMapper;
 import com.user.manager.service.AuthRoleService;
+import com.user.manager.vo.RolePermissionVO;
 import com.user.manager.vo.TabPermissionVO;
 import com.user.manager.vo.TabRolePermissionVO;
 import com.user.manager.vo.TabRoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * author: xiao
@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class AuthRoleServiceImpl implements AuthRoleService {
+
     @Autowired
     private TabRolePermissionMapper tabRolePermissionMapper;
 
@@ -42,14 +43,17 @@ public class AuthRoleServiceImpl implements AuthRoleService {
         }
 
         TabPermissionVO tabPermissionVO = tabPermissionMapper.selectByPrimaryKey(permissionId);
+
         if (tabPermissionVO == null){
             throw new AppException(ReturnCode.PERMISSION_IS_NOT_EXIST, ReturnCode.PERMISSION_IS_NOT_EXIST_MSG);
         }
 
         TabRolePermissionVO tabRolePermissionVO = tabRolePermissionMapper.selectByRoleIdAndPermissionId(roleId, permissionId);
-        if (tabRolePermissionVO == null){
+
+        if (tabRolePermissionVO != null){
             throw new AppException(ReturnCode.PERMISSION_IS_EXIST, ReturnCode.PERMISSION_IS_EXIST_MSG);
         }
+
         TabRolePermissionVO tabRolePermission = new TabRolePermissionVO();
         tabRolePermission.setPermissionId(permissionId);
         tabRolePermission.setRoleId(roleId);
@@ -58,7 +62,13 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 
     @Override
     public int authRoles(Integer roleId, List<Long> permissionIds) {
+
+        if (permissionIds == null || permissionIds.size() == 0){
+            return 0;
+        }
+
         TabRoleVO tabRoleVO = tabRoleMapper.selectByPrimaryKey(roleId);
+
         if (tabRoleVO == null){
             throw new AppException(ReturnCode.ROLE_IS_NOT_EXIST, ReturnCode.ROLE_IS_NOT_EXIST_MSG);
         }
@@ -66,7 +76,12 @@ public class AuthRoleServiceImpl implements AuthRoleService {
         //获取已经拥有的权限
         List<TabRolePermissionVO> addPermission = new ArrayList<>();
         List<TabPermissionVO> holdPermissions = tabPermissionMapper.selectPermissionByRoleId(roleId);
-        Set<Long> holdSet = holdPermissions.stream().map(TabPermissionVO::getId).collect(Collectors.toSet());
+
+        Set<Long> holdSet = new HashSet<>();
+        for ( TabPermissionVO tabPermissionVO:holdPermissions){
+            holdSet.add(tabPermissionVO.getId());
+        }
+
         for (Long permissionId:permissionIds) {
             if (!holdSet.contains(permissionId)){
                 TabRolePermissionVO tabRolePermissionVO = new TabRolePermissionVO();
@@ -75,6 +90,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
                 addPermission.add(tabRolePermissionVO);
             }
         }
+
         return tabRolePermissionMapper.beatchInsert(addPermission);
     }
 
@@ -84,19 +100,20 @@ public class AuthRoleServiceImpl implements AuthRoleService {
     }
 
     @Override
-    public int canceAuthRoles(Integer roleId, List<Long> permissionIds) {
+    public int canceAuthRoles(Integer roleId, List<Integer> permissionIds) {
+
         TabRoleVO tabRoleVO = tabRoleMapper.selectByPrimaryKey(roleId);
+
         if (tabRoleVO == null){
             throw new AppException(ReturnCode.ROLE_IS_NOT_EXIST, ReturnCode.ROLE_IS_NOT_EXIST_MSG);
         }
-        for (Long permissionId:permissionIds) {
-            tabRolePermissionMapper.deleteByRoleIdAndPermissionId(roleId, permissionId);
-        }
-        return 0;
+
+        return tabRolePermissionMapper.beatchDelete(permissionIds);
     }
 
     @Override
-    public List<TabPermissionVO> findRolePermissions(Integer roleId) {
-        return tabPermissionMapper.selectPermissionByRoleId(roleId);
+    public List<RolePermissionVO> findRolePermissions(Integer roleId) {
+
+        return tabRolePermissionMapper.selectRolePermissions(roleId);
     }
 }

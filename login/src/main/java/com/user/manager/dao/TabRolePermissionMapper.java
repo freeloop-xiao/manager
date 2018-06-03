@@ -1,5 +1,6 @@
 package com.user.manager.dao;
 
+import com.user.manager.vo.RolePermissionVO;
 import com.user.manager.vo.TabRolePermissionVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,6 +14,8 @@ public interface TabRolePermissionMapper {
 
     int deleteByRoleIdAndPermissionId(@Param("roleId") Integer roleId, @Param("permissionId") Long permissionId);
 
+    int beatchDelete(List<Integer> list);
+
     int insert(TabRolePermissionVO record);
 
     int insertSelective(TabRolePermissionVO record);
@@ -22,6 +25,8 @@ public interface TabRolePermissionMapper {
     TabRolePermissionVO selectByPrimaryKey(Integer id);
 
     TabRolePermissionVO selectByRoleIdAndPermissionId(@Param("roleId") Integer roleId, @Param("permissionId") Long permissionId);
+
+    List<RolePermissionVO> selectRolePermissions(@Param("roleId") Integer roleId);
 
     List<TabRolePermissionVO> selectByRoleId(@Param("roleId") Integer roleId);
 

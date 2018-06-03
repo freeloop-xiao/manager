@@ -1,5 +1,6 @@
 package com.user.manager.service;
 
+import com.user.manager.vo.RolePermissionVO;
 import com.user.manager.vo.TabPermissionVO;
 
 import java.util.List;
@@ -17,8 +18,8 @@ public interface AuthRoleService {
 
     int canceAuthRole(Integer rolePermissionId);
 
-    int canceAuthRoles(Integer roleId, List<Long> permissionIds);
+    int canceAuthRoles(Integer roleId, List<Integer> permissionIds);
 
-    List<TabPermissionVO> findRolePermissions(Integer roleId);
+    List<RolePermissionVO> findRolePermissions(Integer roleId);
 
 }
