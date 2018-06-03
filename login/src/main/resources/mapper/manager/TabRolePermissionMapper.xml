@@ -6,6 +6,37 @@
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
   </resultMap>
+
+  <resultMap id="ExtendResultMap" type="com.user.manager.vo.RolePermissionVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="auth_code" jdbcType="VARCHAR" property="authCode" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="parent_ids" jdbcType="VARCHAR" property="parentIds" />
+    <result column="available" jdbcType="VARCHAR" property="available" />
+  </resultMap>
+
+
+  <select id="selectRolePermissions" resultMap="ExtendResultMap">
+    select T.id,T.role_id,T.permission_id,X.name,X.type,
+    X.url,X.app_name,X.auth_code,X.parent_id,X.parent_ids,
+    X.available
+    FROM
+    (
+      select id,role_id,permission_id
+      from tab_role_permission
+      where role_id=#{roleId,jdbcType=INTEGER}
+    )T LEFT JOIN tab_permission X ON
+    T.permission_id = X.id
+  </select>
+
+
+
   <sql id="Base_Column_List">
     id, role_id, permission_id
   </sql>
@@ -35,6 +66,14 @@
     delete from tab_role_permission
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <delete id="beatchDelete" >
+      delete from  tab_role_permission where id in
+      <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+  </delete>
+
   <delete id="deleteByRoleIdAndPermissionId">
     delete from tab_role_permission
     where role_id = #{roleId,jdbcType=INTEGER}
@@ -52,8 +91,8 @@
   <insert id="beatchInsert" parameterType="java.util.List">
       insert into tab_role_permission(role_id, permission_id)
       values
-      <foreach collection="records" item="record" separator=",">
-        (#{record.roleId},#{record.permissionId})
+      <foreach collection="list" item="item" separator=",">
+        (#{item.roleId},#{item.permissionId})
       </foreach>
   </insert>
 
