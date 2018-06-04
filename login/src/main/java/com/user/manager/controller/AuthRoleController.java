@@ -32,17 +32,22 @@ public class AuthRoleController {
     public ResultMessage<String> authRole(@ApiParam("角色id") @RequestParam Integer roleId,
                                           @ApiParam("权限id") @RequestParam Long permissionId){
         ParamUtils.checkParamsIsNull(roleId);
+
         ParamUtils.checkParamsIsNull(permissionId);
+
         authRoleService.authRole(roleId, permissionId);
+
         return new ResultMessage<>(ReturnCode.SUCCESS, "角色授权成功!");
     }
 
-    @ApiOperation("批量授权")
+    @ApiOperation("批量角色授权")
     @RequestMapping(path = "/authRoles/{roleId}", method = RequestMethod.POST)
     public ResultMessage<String> authRoles(@ApiParam("角色id") @PathVariable("roleId") Integer roleId,
                                            @ApiParam("权限id List") @RequestBody List<Long> permissionIds){
         ParamUtils.checkParamsIsNull(permissionIds);
+
         authRoleService.authRoles(roleId, permissionIds);
+
         return new ResultMessage<>(ReturnCode.SUCCESS, "角色批量授权成功!");
     }
 
@@ -50,7 +55,9 @@ public class AuthRoleController {
     @RequestMapping(path = "/canceAuthRole", method = RequestMethod.DELETE)
     public ResultMessage<String> canceAuthRole(@ApiParam("授权id") @RequestParam Integer rolePermissionId){
         ParamUtils.checkParamsIsNull(rolePermissionId);
+
         authRoleService.canceAuthRole(rolePermissionId);
+
         return new ResultMessage<>(ReturnCode.SUCCESS, "取消角色授权成功！");
     }
 
@@ -59,7 +66,9 @@ public class AuthRoleController {
     public ResultMessage<String> canceAuthRoles(@ApiParam("角色Id") @PathVariable("roleId") Integer roleId,
                                                 @ApiParam("角色权限id列表") @RequestBody List<Integer> rolePermissionIds){
         ParamUtils.checkParamsIsNull(rolePermissionIds);
+
         authRoleService.canceAuthRoles(roleId, rolePermissionIds);
+
         return new ResultMessage<>(ReturnCode.SUCCESS, "角色批量取消授权成功！");
     }
 
@@ -67,8 +76,11 @@ public class AuthRoleController {
     @RequestMapping(path = "/findRoleAuths", method = RequestMethod.GET)
     public ResultMessage<List<RolePermissionVO>> findRoleAuths(@ApiParam("角色id") @RequestParam Integer roleId){
         List<RolePermissionVO> data = authRoleService.findRolePermissions(roleId);
+
         ResultMessage<List<RolePermissionVO>> resultMessage = new ResultMessage(ReturnCode.SUCCESS, "获取角色授权成功!");
+
         resultMessage.setData(data);
+
         return resultMessage;
     }
 }

@@ -37,9 +37,13 @@ public class PermissionController {
                                                         @ApiParam("资源url") @RequestParam String url,
                                                         @ApiParam("应用名称") @RequestParam String appName) {
         ParamUtils.checkParamsIsNull(name, type, url);
+
         TabPermissionVO permissionVO = permissionService.addPermission(name, type, url, appName);
+
         ResultMessage<TabPermissionVO> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "添加权限成功!");
+
         resultMessage.setData(permissionVO);
+
         return resultMessage;
     }
 
@@ -47,7 +51,9 @@ public class PermissionController {
     @RequestMapping(path = "/delPermission", method = RequestMethod.DELETE)
     public ResultMessage<String> delPermission(@ApiParam("权限id") @RequestParam Long id) {
         ParamUtils.checkParamsIsNull(id);
+
         permissionService.delPermission(id);
+
         return new ResultMessage<>(ReturnCode.SUCCESS, "删除权限成功!");
     }
 
@@ -61,8 +67,11 @@ public class PermissionController {
                                                   @ApiParam("应用名称") @RequestParam String appName,
                                                   @ApiParam("是否可用1：可用 ,0:不可用") String available) {
         ParamUtils.checkParamsIsNull(id);
+
         ParamUtils.checkParamsExits(name, type, url, available);
+
         permissionService.changePermission(id, name, type, url, appName, available);
+
         return new ResultMessage<>(ReturnCode.SUCCESS, "修改权限成功!");
     }
 
@@ -70,8 +79,11 @@ public class PermissionController {
     @RequestMapping(path = "/findPermission", method = RequestMethod.GET)
     public ResultMessage<TabPermissionVO> findPermission(@ApiParam("权限id") @RequestParam Long id){
         TabPermissionVO permission = permissionService.findPermission(id);
+
         ResultMessage<TabPermissionVO> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "查询权限信息成功!");
+
         resultMessage.setData(permission);
+
         return resultMessage;
     }
 
@@ -86,8 +98,11 @@ public class PermissionController {
                                                                          @ApiParam("页码从1开始") @RequestParam Integer pageNum,
                                                                          @ApiParam("每页记录条数") @RequestParam Integer pageSize) {
         PageInfo<List<TabPermissionVO>> permissions = permissionService.findPermissions(id, name, type, url, appName, available, pageNum, pageSize);
+
         ResultMessage<PageInfo<List<TabPermissionVO>>> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "查询权限信息成功!");
+
         resultMessage.setData(permissions);
+
         return resultMessage;
     }
 
@@ -98,9 +113,13 @@ public class PermissionController {
                                                                           @ApiParam("页码") @RequestParam Integer pageNum,
                                                                           @ApiParam("记录条数") @RequestParam Integer pageSize) {
         ParamUtils.checkParamsIsNull(available);
+
         PageInfo<List<TabPermissionVO>> permissions = permissionService.showPermissions(available, pageNum, pageSize);
+
         ResultMessage<PageInfo<List<TabPermissionVO>>> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "分页获取权限成功!");
+
         resultMessage.setData(permissions);
+
         return resultMessage;
     }
 }

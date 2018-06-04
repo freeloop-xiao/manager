@@ -2,6 +2,7 @@ package com.user.manager.dao;
 
 import com.user.manager.vo.TabRoleVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public interface TabRoleMapper {
     List<TabRoleVO> selectBySelective(TabRoleVO tabRoleVO);
 
     List<TabRoleVO> selectByAvailable(TabRoleVO tabRoleVO);
+
+    Integer findRoleCount(@Param("list") List<Integer> list);
 
     int updateByPrimaryKeySelective(TabRoleVO record);
 

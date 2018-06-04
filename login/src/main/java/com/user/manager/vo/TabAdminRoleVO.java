@@ -5,7 +5,7 @@ public class TabAdminRoleVO {
 
     private String adminId;
 
-    private Long roleId;
+    private Integer roleId;
 
     public Integer getId() {
         return id;
@@ -23,11 +23,11 @@ public class TabAdminRoleVO {
         this.adminId = adminId == null ? null : adminId.trim();
     }
 
-    public Long getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 }

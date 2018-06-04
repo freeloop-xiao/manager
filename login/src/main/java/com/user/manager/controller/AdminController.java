@@ -42,7 +42,9 @@ public class AdminController {
                                           @ApiParam("管理员管理的appId") @RequestParam String appId,
                                           @ApiParam("管理员备注") @RequestParam String remark) {
         ParamUtils.checkParamsIsNull(name, email, phoneNo, pwd);
+
         adminService.addAdmin(name, email, phoneNo, pwd, userLevel, appId, remark);
+
         return new ResultMessage<>(ReturnCode.SUCCESS, "添加管理员账户成功!");
     }
 
@@ -51,7 +53,9 @@ public class AdminController {
     @RequestMapping(path = "/delAdmin", method = RequestMethod.DELETE)
     public ResultMessage<String> addAdmin(@ApiParam("管理员id") @RequestParam String id) {
         ParamUtils.checkParamsIsNull(id);
+
         adminService.delAdmin(id);
+
         return new ResultMessage<>(ReturnCode.SUCCESS, "删除管理员账户成功!");
     }
 
@@ -66,10 +70,15 @@ public class AdminController {
                                                  @ApiParam("是否可用0：不可用 1：可用") @RequestParam String available,
                                                  @ApiParam("管理员备注") @RequestParam String remark) {
         ParamUtils.checkParamsIsNull(id);
+
         ParamUtils.checkParamsExits(name, email, phoneNo, appId, remark);
+
         TabAdminVO tabAdminVO = adminService.changeAdmin(id, name, email, phoneNo, userLevel, appId, remark, available);
+
         ResultMessage<TabAdminVO> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "修改管理员账户成功!");
+
         resultMessage.setData(tabAdminVO);
+
         return resultMessage;
     }
 
@@ -77,9 +86,13 @@ public class AdminController {
     @RequestMapping(path = "/findAdmin", method = RequestMethod.POST)
     public ResultMessage<TabAdminVO> findAdmin(@ApiParam("管理员id") @RequestParam String id) {
         ParamUtils.checkParamsIsNull(id);
+
         TabAdminVO tabAdminVO = adminService.findAdmin(id);
+
         ResultMessage<TabAdminVO> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "查询管理员账户成功!");
+
         resultMessage.setData(tabAdminVO);
+
         return resultMessage;
     }
 
@@ -96,9 +109,13 @@ public class AdminController {
             @ApiParam("页码") @RequestParam Integer pageNum,
             @ApiParam("每页记录条数") @RequestParam Integer pageSize) {
         ParamUtils.checkParamsExits(name, email, phoneNo, appId, String.valueOf(userLevel),available);
+
         PageInfo<List<TabAdminVO>> pageInfo = adminService.findAdmins(name, email, phoneNo, userLevel, available, appId, pageNum, pageSize);
+
         ResultMessage<PageInfo<List<TabAdminVO>>> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "查找管理员账户成功!");
+
         resultMessage.setData(pageInfo);
+
         return resultMessage;
     }
 
@@ -108,8 +125,11 @@ public class AdminController {
                                                 @ApiParam("页码") @RequestParam Integer pageNum,
                                                 @ApiParam("每页记录数") @RequestParam Integer pageSize) {
         PageInfo<List<TabAdminVO>> pageInfo = adminService.showAdmins(available, pageNum, pageSize);
+
         ResultMessage<PageInfo<List<TabAdminVO>>> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "查询管理员账户成功!");
+
         resultMessage.setData(pageInfo);
+
         return resultMessage;
     }
 

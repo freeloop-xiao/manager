@@ -94,4 +94,15 @@ public class ReturnCode {
      */
     public static final String PERMISSION_IS_EXIST_MSG = "该角色已经拥有该权限!";
 
+
+    /**
+     * 用户已经拥有角色重复授权
+     */
+    public static final String ROLE_IS_EXIST = "0008";
+    /**
+     * 用户已经拥有角色重复授权提醒
+     */
+    public static final String ROLE_IS_EXIST_MSG = "用户已经拥有该角色!";
+
+
 }

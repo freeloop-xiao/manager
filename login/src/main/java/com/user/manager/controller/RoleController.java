@@ -34,6 +34,7 @@ public class RoleController {
     public ResultMessage<String> addRole(@ApiParam("角色名字") @RequestParam String name,
                                          @ApiParam("角色类型") @RequestParam String type) {
         roleService.addRole(name, type);
+
         return new ResultMessage<>(ReturnCode.SUCCESS, "角色添加成功!");
     }
 
@@ -41,6 +42,7 @@ public class RoleController {
     @RequestMapping(path = "/delRole", method = RequestMethod.DELETE)
     public ResultMessage<String> delRole(@ApiParam("角色id") @RequestParam Integer id) {
         roleService.delRole(id);
+
         return new ResultMessage<>(ReturnCode.SUCCESS, "删除角色成功!");
     }
 
@@ -51,8 +53,11 @@ public class RoleController {
                                                @ApiParam("角色类型") @RequestParam String type,
                                                @ApiParam("角色是否可用0：不可用,1: 可用") @RequestParam String available) {
         TabRoleVO roleVO = roleService.changeRole(id, name, type, available);
+
         ResultMessage<TabRoleVO> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "修改角色信息成功!");
+
         resultMessage.setData(roleVO);
+
         return resultMessage;
     }
 
@@ -60,8 +65,11 @@ public class RoleController {
     @RequestMapping(path = "/findRole", method = RequestMethod.GET)
     public ResultMessage<TabRoleVO> findRole(@ApiParam("角色id") @RequestParam Integer id){
         TabRoleVO data = roleService.findRole(id);
+
         ResultMessage<TabRoleVO> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "查找角色信息成功!");
+
         resultMessage.setData(data);
+
         return resultMessage;
     }
 
@@ -74,8 +82,11 @@ public class RoleController {
                                                              @ApiParam("页码") @RequestParam Integer pageNum,
                                                              @ApiParam("每页记录条数") @RequestParam Integer pageSize) {
         PageInfo<List<TabRoleVO>> data = roleService.findRoles(name, type, available, pageNum, pageSize);
+
         ResultMessage<PageInfo<List<TabRoleVO>>> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "分页查找角色信息成功!");
+
         resultMessage.setData(data);
+
         return resultMessage;
     }
 
@@ -86,8 +97,11 @@ public class RoleController {
                                                               @ApiParam("页码") @RequestParam Integer pageNum,
                                                               @ApiParam("每页记录条数") @RequestParam Integer pageSize) {
         PageInfo<List<TabRoleVO>> data = roleService.showRoles(available, pageNum, pageSize);
+
         ResultMessage<PageInfo<List<TabRoleVO>>> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "分页获取角色成功!");
+
         resultMessage.setData(data);
+
         return resultMessage;
     }
 
