@@ -36,6 +36,13 @@
     ORDER BY id ASC
   </select>
 
+  <select id="findRoleCount" resultType="java.lang.Integer">
+    SELECT count(id) from tab_role
+    WHERE id in
+    <foreach collection="list" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
 
   <select id="selectByAvailable" resultMap="BaseResultMap">
     select
