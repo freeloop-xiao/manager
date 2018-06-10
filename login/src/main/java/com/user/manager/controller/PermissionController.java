@@ -65,7 +65,7 @@ public class PermissionController {
                                                   @ApiParam("权限类型") @RequestParam String type,
                                                   @ApiParam("权限url") @RequestParam String url,
                                                   @ApiParam("应用名称") @RequestParam String appName,
-                                                  @ApiParam("是否可用1：可用 ,0:不可用") String available) {
+                                                  @ApiParam("是否可用1：可用 ,0:不可用") @RequestParam String available) {
         ParamUtils.checkParamsIsNull(id);
 
         ParamUtils.checkParamsExits(name, type, url, available);
@@ -94,7 +94,7 @@ public class PermissionController {
                                                                          @ApiParam("权限类型") @RequestParam String type,
                                                                          @ApiParam("权限url") @RequestParam String url,
                                                                          @ApiParam("应用名称") @RequestParam String appName,
-                                                                         @ApiParam("是否可用1：可用 ,0:不可用") String available,
+                                                                         @ApiParam("是否可用1：可用 ,0:不可用") @RequestParam String available,
                                                                          @ApiParam("页码从1开始") @RequestParam Integer pageNum,
                                                                          @ApiParam("每页记录条数") @RequestParam Integer pageSize) {
         PageInfo<List<TabPermissionVO>> permissions = permissionService.findPermissions(id, name, type, url, appName, available, pageNum, pageSize);
@@ -109,7 +109,7 @@ public class PermissionController {
 
     @ApiOperation("分页显示所有权限接口")
     @RequestMapping(path = "/showPermissions", method = RequestMethod.GET)
-    public ResultMessage<PageInfo<List<TabPermissionVO>>> showPermissions(@ApiParam("是否可用0:不可用, 1：可用 ,2:所有") String available,
+    public ResultMessage<PageInfo<List<TabPermissionVO>>> showPermissions(@ApiParam("是否可用0:不可用, 1：可用 ,2:所有") @RequestParam String available,
                                                                           @ApiParam("页码") @RequestParam Integer pageNum,
                                                                           @ApiParam("记录条数") @RequestParam Integer pageSize) {
         ParamUtils.checkParamsIsNull(available);
