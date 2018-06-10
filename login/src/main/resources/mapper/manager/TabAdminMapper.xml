@@ -26,6 +26,8 @@
     id, name, email, phone_no, user_level, available, create_user, app_id,
     update_date, create_date, remark
   </sql>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -83,6 +85,7 @@
     from tab_admin
     where phone_no = #{phoneNo,jdbcType=VARCHAR}
   </select>
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from tab_admin

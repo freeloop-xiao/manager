@@ -51,6 +51,27 @@
     AND T.role_id = #{roleId,jdbcType=INTEGER}
   </select>
 
+
+  <select id="selectPermissionsByAdminId"  resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM tab_permission WHERE id in
+	(
+		SELECT DISTINCT
+			B.permission_id
+		FROM
+			(
+				SELECT DISTINCT
+					role_id
+				FROM
+					tab_admin_role
+				WHERE
+					admin_id = #{adminId,jdbcType=VARCHAR}
+			) A
+		LEFT JOIN tab_role_permission B ON A.role_id = B.role_id
+	)
+  </select>
+
   <select id="selectBySelective"  resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
