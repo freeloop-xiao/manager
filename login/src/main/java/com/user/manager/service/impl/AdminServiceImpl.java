@@ -5,8 +5,10 @@ import com.github.pagehelper.PageHelper;
 import com.user.common.*;
 import com.user.exception.AppException;
 import com.user.manager.dao.TabAdminMapper;
+import com.user.manager.dao.TabPermissionMapper;
 import com.user.manager.service.AdminService;
 import com.user.manager.vo.TabAdminVO;
+import com.user.manager.vo.TabPermissionVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class AdminServiceImpl implements AdminService{
 
     @Autowired
     private TabAdminMapper tabAdminMapper;
+
+    @Autowired
+    private TabPermissionMapper tabPermissionMapper;
 
     @Override
     public int addAdmin(String name, String email, String phoneNo, String pwd, Integer userLevel, String appId, String remark) {
@@ -112,6 +117,15 @@ public class AdminServiceImpl implements AdminService{
         pageSize = PageInfo.checkPageSize(pageSize);
         Page page = PageHelper.startPage(pageNum, pageSize);
         List<TabAdminVO> data = tabAdminMapper.selectByAvailable(available);
+        return new PageInfo<>(pageNum, pageSize, page.getTotal(), data);
+    }
+
+    @Override
+    public PageInfo<List<TabPermissionVO>> showAdminPermissions(String adminId, Integer pageNum, Integer pageSize) {
+        pageNum = PageInfo.checkPageNum(pageNum);
+        pageSize = PageInfo.checkPageSize(pageSize);
+        Page page = PageHelper.startPage(pageNum, pageSize);
+        List<TabPermissionVO> data = tabPermissionMapper.selectPermissionsByAdminId(adminId);
         return new PageInfo<>(pageNum, pageSize, page.getTotal(), data);
     }
 }

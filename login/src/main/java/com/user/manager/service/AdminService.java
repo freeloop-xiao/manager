@@ -2,6 +2,7 @@ package com.user.manager.service;
 
 import com.user.common.PageInfo;
 import com.user.manager.vo.TabAdminVO;
+import com.user.manager.vo.TabPermissionVO;
 
 import java.util.List;
 
@@ -75,4 +76,13 @@ public interface AdminService {
      * @return
      */
     PageInfo<List<TabAdminVO>> showAdmins(String available, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据管理员id查找对于权限
+     * @param adminId：管理员id
+     * @param pageNum: 页码
+     * @param pageSize：页记录条数
+     * @return
+     */
+    PageInfo<List<TabPermissionVO>> showAdminPermissions(String adminId, Integer pageNum, Integer pageSize);
 }

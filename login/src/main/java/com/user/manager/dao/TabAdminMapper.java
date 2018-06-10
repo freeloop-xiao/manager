@@ -1,6 +1,7 @@
 package com.user.manager.dao;
 
 import com.user.manager.vo.TabAdminVO;
+import com.user.manager.vo.TabPermissionVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

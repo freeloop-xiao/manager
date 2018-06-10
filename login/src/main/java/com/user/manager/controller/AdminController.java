@@ -133,4 +133,19 @@ public class AdminController {
         return resultMessage;
     }
 
+    @ApiOperation("分页显示管理员信息接口")
+    @RequestMapping(path = "/showAdminPermissions", method = RequestMethod.GET)
+    public ResultMessage<PageInfo<List<TabPermissionVO>>> showAdminPermissions(@ApiParam("管理员id") @RequestParam String adminId,
+                                                                               @ApiParam("页码") @RequestParam Integer pageNum,
+                                                                          @ApiParam("每页记录数") @RequestParam Integer pageSize) {
+        PageInfo<List<TabPermissionVO>> pageInfo = adminService.showAdminPermissions(adminId, pageNum, pageSize);
+
+        ResultMessage<PageInfo<List<TabPermissionVO>>> resultMessage = new ResultMessage<>(ReturnCode.SUCCESS, "查询管理员账户成功!");
+
+        resultMessage.setData(pageInfo);
+
+        return resultMessage;
+    }
+
+
 }
